@@ -1,0 +1,26 @@
+{
+  "name": "block-explorer",
+  "version": "1.0.0",
+  "description": "Ethereum block explorer for a given range of blocks",
+  "main": "cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tatianajiselle/ethereum-block-explorer.git"
+  },
+  "author": "Tatiana Ensslin",
+  "license": "ISC",
+  "bin": {
+    "lets-explore": "./cli.js"
+  },
+  "bugs": {
+    "url": "https://github.com/tatianajiselle/ethereum-block-explorer/issues"
+  },
+  "homepage": "https://github.com/tatianajiselle/ethereum-block-explorer#readme",
+  "dependencies": {
+    "prompt": "^1.0.0",
+    "web3": "^1.0.0-beta.35"
+  }
+}
