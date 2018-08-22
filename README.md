@@ -29,3 +29,8 @@ Design goals:
 - Readability: Is code clear, well defined and declared, and commented when needed? Intuative? 
 - Documentation: Is there documentation that explains how to run the code, code architecture, testing?
 - Tests: Are there automated tests? Do these test edge cases and functionality?
+
+
+#How Do I Run locally?
+Great question! Naviagte to the source directory and run:
+> ./cli.js 
