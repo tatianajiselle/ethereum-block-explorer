@@ -93,7 +93,6 @@ function setWeb3Provider(){
 function getCurrentBlockNumber(web3){
     web3.eth.getBlockNumber(function(error, result){
         if(!error){
-            console.log(JSON.stringify(result));
             CURRENT_BLOCKCHAIN_NUMBER = JSON.stringify(result);
         } else {
             console.error(error);
