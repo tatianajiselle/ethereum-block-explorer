@@ -11,11 +11,10 @@ module.exports = {
         var currentBlockNumber;
 
         console.log("Please input a single number representing how far back from present block to search. Ex.) 10");
-        console.log("Max number you can input is equal to the current block number:");
         
         var $currentBlockNumber = web3Service.getCurrentBlockNumber(web3)
         $currentBlockNumber.then(function(result){
-            console.log(result);
+            console.log("You can pick any number between 0 and " + result);
             currentBlockNumber = result;
             prompt.get(['number'], function (err, result) {
                 // prompt returns string so type convert to number 

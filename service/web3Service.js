@@ -31,20 +31,23 @@ module.exports = {
     // input: block number
     // output: fetch block #
     fetchSingleBlock: function(number,web3) {
-        web3.eth.getBlock(number,function(error, result){
+        return web3.eth.getBlock(number,function(error, result){
             if(!error)
-                console.log(JSON.stringify(result));
+                return JSON.stringify(result);
             else
                 console.error(error);
         })
     },
 
     // input: start and end block number
-    // output: print block data for given range
+    // output: print block data for given range from current block till # block
     doubleNumberQuery: function (start, end, web3) {
-        while (start <= end){
-            this.fetchSingleBlock(start, web3);
-            start++;
+        while (end >= start){
+            var $block = this.fetchSingleBlock(end, web3)
+            $block.then(function(result){
+               console.log(result)
+            });
+            end--; 
         }
     }
  
