@@ -19,10 +19,10 @@ module.exports = {
             prompt.get(['number'], function (err, result) {
                 // prompt returns string so type convert to number 
                 // TODO: write a test that ensures the number converts properly 
-                var num = Number(result.number)
+                var num = Number(result.number);
                 if (helper.isBlockNumberInRange(num, currentBlockNumber) === true){
                     var start = (currentBlockNumber - num);
-                    web3Service.doubleNumberQuery(start, num, web3);
+                    web3Service.doubleNumberQuery(start, currentBlockNumber, web3);
                 } else {
                     console.error(err + "Please pick a number that is within the current block number range.")
                 }
