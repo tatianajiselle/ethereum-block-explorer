@@ -49,25 +49,27 @@ module.exports = {
             // fetch block
             var block = this.fetchSingleBlock(end, web3);
             // parse block for transaction ether history
-            var totalEtherTransfered = this.parseBlockRetrieveTransaction(block, web3);
+            var totalEtherTransfered = this.parseBlockGetAmtOfEtherTransfered(block, web3);
             totalEtherTransfered += totalEtherTransfered;
             end--; 
         }
         console.log("The total Ether transfered in this transaction is: " + totalEtherTransfered);
     },
 
-    parseBlockRetrieveTransaction: function(blockAsPromise, web3){
+    // input: block object as a pending promise ; web3 object
+    // output: returns the total ether transfered
+    parseBlockGetAmtOfEtherTransfered: function(blockAsPromise, web3){
         var totalEtherTransfered = 0;
         var etherTransferedInTransaction = 0;
-        var transactionValue = 0;
 
-        blockAsPromise.then(function(result){
-            totalEtherTransfered = web3.eth.getTransaction(result.transactions[0], function(error, result){
-                transactionValue = result.value;
-                etherTransferedInTransaction += transactionValue;
-                
-                return etherTransferedInTransaction;
-            });
+        blockAsPromise.then(function(result){            
+            // Blocks can have more than one transaction per block, this is to iterate for all tx in block
+            for (var i = 0; i < result.transactions.length; i++) {
+                etherTransferedInTransaction = web3.eth.getTransaction(result.transactions[i], function(error, result){
+                    return result.value;
+                });
+                totalEtherTransfered += etherTransferedInTransaction; // update the value of total ether transfered after each transaction
+            }
         });
         return totalEtherTransfered;
     }
