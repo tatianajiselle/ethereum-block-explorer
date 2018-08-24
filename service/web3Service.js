@@ -49,7 +49,7 @@ module.exports = {
             // fetch block
             var block = this.fetchSingleBlock(end, web3);
             // parse block for transaction ether history
-            var totalEtherTransfered = this.parseBlockGetAmtOfEtherTransfered(block, web3);
+            var totalEtherTransfered = this.getTotalEtherTransfered(block, web3);
             totalEtherTransfered += totalEtherTransfered;
             end--; 
         }
@@ -58,7 +58,7 @@ module.exports = {
 
     // input: block object as a pending promise ; web3 object
     // output: returns the total ether transfered
-    parseBlockGetAmtOfEtherTransfered: function(blockAsPromise, web3){
+    getTotalEtherTransfered: function(blockAsPromise, web3){
         var totalEtherTransfered = 0;
         var etherTransferedInTransaction = 0;
 
