@@ -3,6 +3,7 @@
 //                                //
 var Web3 = require('web3');
 
+
 module.exports = {
 
     // Checks to see if there is an exisiting web3 instance (in case of metamask or mist)
@@ -41,14 +42,34 @@ module.exports = {
 
     // input: start and end block number
     // output: print block data for given range from current block till # block
-    doubleNumberQuery: function (start, end, web3) {
+    doubleNumberQuery: function(start, end, web3) {
+        var totalEtherTransfered = 0;
+
         while (end >= start){
-            var $block = this.fetchSingleBlock(end, web3)
-            $block.then(function(result){
-               console.log(result)
-            });
+            // fetch block
+            var block = this.fetchSingleBlock(end, web3);
+            // parse block for transaction ether history
+            var totalEtherTransfered = this.parseBlockRetrieveTransaction(block, web3);
+            totalEtherTransfered += totalEtherTransfered;
             end--; 
         }
+        console.log("The total Ether transfered in this transaction is: " + totalEtherTransfered);
+    },
+
+    parseBlockRetrieveTransaction: function(blockAsPromise, web3){
+        var totalEtherTransfered = 0;
+        var etherTransferedInTransaction = 0;
+        var transactionValue = 0;
+
+        blockAsPromise.then(function(result){
+            totalEtherTransfered = web3.eth.getTransaction(result.transactions[0], function(error, result){
+                transactionValue = result.value;
+                etherTransferedInTransaction += transactionValue;
+                
+                return etherTransferedInTransaction;
+            });
+        });
+        return totalEtherTransfered;
     }
- 
-};
+
+}
