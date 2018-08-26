@@ -31,6 +31,10 @@ Design goals:
 - Tests: Are there automated tests? Do these test edge cases and functionality?
 
 
-# How Do I Run locally?
+# How Do I Run Locally?
 Great question! Naviagte to the source directory and run:
 > ./cli.js 
+
+
+# Hode Do I Run Tests?
+> npm test

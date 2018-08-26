@@ -4,7 +4,7 @@
   "description": "Ethereum block explorer for a given range of blocks",
   "main": "cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "dependencies": {
     "prompt": "^1.0.0",
     "web3": "^1.0.0-beta.35"
+  },
+  "devDependencies": {
+    "jasmine": "^3.2.0"
   }
 }
