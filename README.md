@@ -20,11 +20,13 @@ Command line interface
 NodeJs, Javascript
 
 
-<b>Challenges</b>: How would you solve slow queries over large block ranges?
+<b>Challenges</b>: How would you solve slow queries over large block ranges?  
+
+
 If space isnt an issue, I would solve slow queries over large block ranges by caching the most recent block range/transactions.
 This would need to be updated based on benchmarked calls but could be implemented as an automated algorithm (a rolling window), therefore allowing most recent blocks/transactions to remain cached. Caching these blocks alleviates long range queries in two ways: 
-- 1. It relieves the chain from consistent requests therefore alieving the system  
-- 2. Quicker response time on the block explorer to deliver recent block/transaction data
+1. It relieves the chain from consistent requests therefore alieving the system  
+2. Quicker response time on the block explorer to deliver recent block/transaction data
 
 
 <b>Design Goals</b>:
