@@ -15,6 +15,6 @@ module.exports = {
     // validates that a user inputed block number is in the current block number history
     isBlockNumberInRange: function(number, currentBlockNumber){
         return (0 <= number && number <= currentBlockNumber); // TODO: handle error if block number undefined 
-    }
-
+    },
+    
 };
