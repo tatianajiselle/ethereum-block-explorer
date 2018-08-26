@@ -14,14 +14,15 @@ module.exports = {
         
         var $currentBlockNumber = web3Service.getCurrentBlockNumber(web3)
         $currentBlockNumber.then(function(result){
-            console.log("You can pick any number between 0 and " + result);
             currentBlockNumber = result;
+            console.log("You can pick any number between 1 and " + (currentBlockNumber + 1));
+            
             prompt.get(['number'], function (err, result) {
                 // prompt returns string so type convert to number 
                 // TODO: write a test that ensures the number converts properly 
                 var num = Number(result.number);
-                if (helper.isBlockNumberInRange(num, currentBlockNumber) === true){
-                    var start = (currentBlockNumber - num);
+                if (helper.isBlockNumberInRange(num, (currentBlockNumber+1)) === true){ // -1 to account for index offset 
+                    var start = ((currentBlockNumber+1) - num);
                     web3Service.doubleNumberQuery(start, currentBlockNumber, web3);
                 } else {
                     console.error(err + "Please pick a number that is within the current block number range.")

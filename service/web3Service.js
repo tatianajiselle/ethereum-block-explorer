@@ -2,7 +2,7 @@
 //      Web3 QUERY FUNCTIONS      // 
 //                                //
 var Web3 = require('web3');
-
+var helper = require('../common/helpers.js');
 
 module.exports = {
 
@@ -31,69 +31,95 @@ module.exports = {
 
     // input: block number
     // output: fetch block #
-    fetchSingleBlock: function(number,web3) {
-        return web3.eth.getBlock(number,function(error, result){
-            if(!error)
-                return JSON.stringify(result);
-            else
-                console.error(error);
-        })
+    getSingleBlock: async function(number,web3) {
+        return web3.eth.getBlock(number);
+        // ,function(error, result){
+        //     console.log("in get block: ")
+        //     //console.log(result);
+        //     if(!error)
+        //         return JSON.stringify(result);
+        //     else
+        //         console.error(error);
+        // })
+    },
+
+    getTransaction: async function(hash, web3){
+        return web3.eth.getTransaction(hash)
+        // , function(error, transaction){
+        //     console.log(" in get transaction, should be returning transaction :")
+        //     console.log(transaction)
+        //     if(!error)
+        //         return JSON.stringify(transaction);
+        //     else
+        //         console.error(error);
+        // })
     },
 
     // input: start and end block number
     // output: print block data for given range from current block till # block
-    doubleNumberQuery: function(start, end, web3) {
-        //var totalEtherTransfered, contractCount;
-        var blockData; // an array of length 2
+    doubleNumberQuery: async function(start, end, web3) {
         var temp = end;
-
+        var totalEther = 0;
+        var totalContracts = 0
+        
         while (temp >= start){
-            var block = this.fetchSingleBlock(temp, web3);
-            blockData = this.getTotalEtherTransfered(block, web3);
-            temp--; 
+
+            // make a query to the blockchain
+            var block = await this.getSingleBlock(temp, web3).then(function(block){
+                return block
+            });
+            
+            // save transaction hashes (array) of the block
+            var blockTxs = block.transactions; 
+
+            // for transactions in the array
+            for (var i = 0; i < blockTxs.length; i++) {
+                var transaction = await this.getTransaction(blockTxs[i], web3).then(function(tx){
+                    return tx
+                   });
+
+                // for each transaction, parse and calculate sum
+                var transactionData = this.parseTx(transaction)
+
+                totalContracts += transactionData.count;
+                totalEther += transactionData.value;
+            }
+           temp--; 
         }
 
-        // TODO: refactor these print statements to the helper file
-        // TODO: Add the ability to print the address to and from list 
-        console.log("\n The total Ether transfered from blocks " + start + " to " + end + ": " + blockData.value);
-        console.log(" Total addresses that are contracts: " + blockData.count);
+        console.log("Total value in Ether transfered for all blocks in given range: " + totalEther);
+        console.log("Total amount of contract addresses for all blocks in given range: " + totalContracts);
     },
 
-    // input: block object as a pending promise ; web3 object
-    // output: returns the total ether transfered
-    // parse block for all transaction ether history and calculate total value transfered
-    getTotalEtherTransfered: function(blockAsPromise, web3){
-        var totalEtherTransfered = 0;
-        var transactionData;
-        var etherTransferedInTransaction = 0;
-        var contractCount = 0;
+    getTxFromHash : function(block){
+            return web3.eth.getTransaction(block, function(error, transaction){
+                            if (!error) 
+                                return transaction;
+                            else
+                                console.error(error);
+            });
+    },
 
-        blockAsPromise.then(function(result){            
-            // Blocks can have more than one transaction per block, this is to iterate for all tx in block
-            for (var i = 0; i < result.transactions.length; i++) {
-                transactionData = web3.eth.getTransaction(result.transactions[i], function(error, transaction){
-                    if (!error) {
-                        if (transaction.to === null) contractCount++;
-                        console.log("\n Transaction Hash: " + transaction.hash );
-                        console.log(" Sending Address: " + transaction.to);
-                        console.log(" Receiving Address :" + transaction.from);
-                        console.log(" Amount sent in Ether: " + transaction.value);
-                        return {
-                            value : transaction.value,
-                            count : contractCount
-                        };
-                    } else {
-                        console.log(error + " Web3 call to get transaction failed.");
-                    }   
-                });
-                etherTransferedInTransaction += transactionData.count;
-                contractCount+= transactionData.value; // update the value of total ether transfered after each transaction
+    parseTx: function(transaction){
+        var count = 0;
+        var value = Number(transaction.value);
+
+        if (!transaction.to || !transaction.from){
+                count += count + 1;
             }
-        });
-        return {
-            value : etherTransferedInTransaction,
-            count : contractCount
-        };
-    }
 
+        this.printTransactionData(transaction.hash, transaction.to, transaction.from, transaction.value);
+        
+        return {
+            value: value,
+            count: count
+        }
+    },
+
+    printTransactionData: function(hash, addressTo, addressFrom, value){
+        console.log("\n Transaction Hash: " + hash);
+        console.log(" Sending Address: " + addressFrom);
+        console.log(" Receiving Address : " + addressTo);
+        console.log(" Amount sent in Ether: " + value + "\n");
+    },
 }
