@@ -32,7 +32,7 @@ This would need to be updated based on benchmarked calls but could be implemente
 <b>Design Goals</b>:
 - User (top priority): Is everything clear and understandable for the user? Is it easy to use?
 - Requirements: Are all functional requirements completed?
-- Readability: Is code clear, well defined and declared, and commented when needed? Intuative? 
+- Readability: Is code clear, well defined and declared, and commented when needed? Intuitive? 
 - Documentation: Is there documentation that explains how to run the code, code architecture, testing?
 - Tests: Are there automated tests? Do these test edge cases and functionality?
 
