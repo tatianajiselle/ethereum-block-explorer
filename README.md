@@ -42,5 +42,5 @@ Great question! Naviagte to the source directory and run:
 > ./cli.js 
 
 
-# Hode Do I Run Tests?
+# How Do I Run Tests?
 > npm test
