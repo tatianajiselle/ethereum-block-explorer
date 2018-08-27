@@ -26,13 +26,13 @@ module.exports = {
     },
 
     // input: block number
-    // output: get block
+    // output: get block as promise
     getSingleBlock: async function(number,web3) {
         return web3.eth.getBlock(number);
     },
 
     // input: transaction hash
-    // output: get transaction
+    // output: get transaction as promise
     getTransaction: async function(hash, web3){
         return web3.eth.getTransaction(hash);
     },

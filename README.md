@@ -3,7 +3,7 @@ Block explorer tool for given range of block inputs.
 
 
 <b>Functional Requirements</b>:
-1. Given a range of blocks OR a user inputted number of blocks to visit from, query the blockchain.
+1. Given a range of blocks OR a user inputed number of blocks to visit from, query the blockchain.
 2. Return the following information:
   - Total ether transfered from block range given.
   - Which addresses sent/received and how much sent/receieved total?
@@ -42,11 +42,13 @@ This would need to be updated based on benchmarked calls but could be implemente
 1. NodeJs
 2. Local Ethereum Node or Ganache Testnet 
   
-<b>Dependencies</b>:  
+<b>Dependencies</b>:   
+In root project directory:  
 > npm install 
 
 
 <b>Run</b>:  
+In root project directory:     
 > ./cli.js 
 
 
