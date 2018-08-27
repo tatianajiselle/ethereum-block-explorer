@@ -1,14 +1,14 @@
-# ethereum-block-explorer
+# Ethereum Block Explorer
 Block explorer tool for given range of block inputs.
 
 
 <b>Functional Requirements</b>:
 1. Given a range of blocks OR a user inputted number of blocks to visit from, query the blockchain.
 2. Return the following information:
-  - total ether transfered from block range given
-  - which addresses sent/received and how much sent/receieved total?
-  - total count of how many addresses are contract addresses
-3. OPTIONAL SUPPORT PICK A FEATURE
+  - Total ether transfered from block range given.
+  - Which addresses sent/received and how much sent/receieved total?
+  - Total count of how many addresses are contract addresses.
+3. OPTIONAL FEATURE
   - What percentage of transactions were contract transactions?
 
 
@@ -38,9 +38,18 @@ This would need to be updated based on benchmarked calls but could be implemente
 
 
 # How Do I Run Locally?
-Great question! Naviagte to the source directory and run:
+<b>Prereqs</b>:  
+1. NodeJs
+2. Local Ethereum Node or Ganache Testnet 
+  
+<b>Dependencies</b>:  
+> npm install 
+
+
+<b>Run</b>:  
 > ./cli.js 
 
 
-# How Do I Run Tests?
+<b>Tests</b>:
 > npm test
+
