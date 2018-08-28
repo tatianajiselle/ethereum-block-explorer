@@ -1,5 +1,6 @@
 var Web3 = require('web3');
 var assert = require('assert');
+var helper = require('../common/helpers.js');
 var web3;
 var web3Provider;
 
@@ -31,7 +32,7 @@ describe("eth_getBlockByNumber", function() {
 
         var expectedFirstBlock = {
         number: 0,
-        hash: block.hash, // Don't test this one
+        hash: block.hash, 
         mixHash: "0x0000000000000000000000000000000000000000000000000000000000000000",
         parentHash: '0x0000000000000000000000000000000000000000000000000000000000000000',
         nonce: '0x0000000000000000',
@@ -47,12 +48,12 @@ describe("eth_getBlockByNumber", function() {
         size: 1000,
         gasLimit: 6721975,
         gasUsed: 0,
-        timestamp: block.timestamp, // Don't test this one.
+        timestamp: block.timestamp,
         transactions: [],
         uncles: []
         };
 
-        assert.deepEqual(block, expectedFirstBlock);
+        assert.deepStrictEqual(block, expectedFirstBlock);
 
         var now = (new Date()).getTime();
         var then = block.timestamp * 1000; // block.timestamp is in seconds.
@@ -67,7 +68,29 @@ describe("eth_getBlockByNumber", function() {
     web3.eth.getBlock(100445, true, function(err, block) {
         if (err) return done(err);
 
-        assert.deepEqual(block, null);
+        assert.deepStrictEqual(block, null);
+        done();
+    });
+    });
+
+});
+
+describe("eth_getBlockNumber queries successfully", function() {
+    it("should return current block number of four", function(done) {
+    var number = web3.eth.getBlockNumber(function(err, result) {
+        if (err) return done(err);
+        assert.deepStrictEqual(4, result);
+        done();
+    });
+    });
+
+describe("isBLockNumberInRange is successful", function() {
+    it("should return true if block is in range", function(done) {
+        var mockNumber = 3;
+        var mockCurrentBlockNumber = 4
+        var result = helper.isBlockNumberInRange(mockNumber, mockCurrentBlockNumber);
+        
+        assert.deepStrictEqual(true, result);
         done();
     });
     });
