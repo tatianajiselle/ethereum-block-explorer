@@ -47,11 +47,18 @@ In root project directory:
 > npm install 
 
 
-<b>Run</b>:  
+<b>Run (unpackaged)</b>:  
 In root project directory:     
 > ./cli.js 
+
+<b>Run (packaged)</b>:     
+> lets-explore 
 
 
 <b>Tests</b>:
 > npm test
+
+
+<b>How To Package</b>:
+> npm link
 
