@@ -11,14 +11,14 @@ module.exports = {
         promise.then(function(currentBlockNumber){
             console.log("You can pick any number between 1 and " + (currentBlockNumber + 1));
             
-            prompt.get(['number'], function (err, result) {
+            prompt.get(['number'], function (error, result) {
                 var num = Number(result.number);
 
                 if (helper.isBlockNumberInRange(num, (currentBlockNumber+1)) === true){ // +1 to account for index offset 
                     var start = ((currentBlockNumber+1) - num);
                     web3Service.doubleNumberQuery(start, currentBlockNumber, web3);
                 } else {
-                    console.error(err + "Please pick a number that is within the current block number range.")
+                    console.error("ERROR: " + error + ". Please pick a number that is within the current block number range.")
                 }
             });
         })
@@ -41,7 +41,7 @@ module.exports = {
                         (helper.isBlockNumberInRange(end-1, currentBlockNumber) === true)){
                         web3Service.doubleNumberQuery(start, end-1, web3);
                 } else {
-                    console.error(error + " Please pick a number that is within the current block number range.")
+                    console.error("ERROR: " + error + ". Please pick a number that is within the current block number range.")
                 }
             });
         });

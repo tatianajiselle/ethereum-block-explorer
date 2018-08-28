@@ -1,8 +1,3 @@
-//                            //
-//      HELPER FUNCTIONS      // 
-//                            //
-var web3Service = require('../service/web3Service.js')
-
 module.exports = {
 
     welcomeInstructions: function(){

@@ -26,13 +26,13 @@ module.exports = {
     },
 
     // input: block number
-    // output: get block
+    // output: get block as promise
     getSingleBlock: async function(number,web3) {
         return web3.eth.getBlock(number);
     },
 
     // input: transaction hash
-    // output: get transaction
+    // output: get transaction as promise
     getTransaction: async function(hash, web3){
         return web3.eth.getTransaction(hash);
     },
@@ -42,8 +42,9 @@ module.exports = {
     doubleNumberQuery: async function(start, end, web3) {
         var currentBlock = end;
         var totalEther = 0;
-        var totalContracts = 0
-        
+        var totalContracts = 0;
+        var totalTransactionCount = 0;
+
         while (currentBlock >= start){
 
             // make a query to the blockchain
@@ -65,11 +66,12 @@ module.exports = {
 
                 totalContracts += transactionData.count;
                 totalEther += transactionData.value;
+                totalTransactionCount += 1;
             }
            currentBlock--; 
         }
         console.log("Total value in Ether transfered for all blocks in given range: " + totalEther);
-        console.log("Total amount of contract addresses for all blocks in given range: " + totalContracts);
+        console.log("Total percent of addresses that are contract addresses: " + ((totalContracts/(2*totalTransactionCount))*100).toFixed(2) + "%");
     },
 
     // input: transaction object
@@ -92,8 +94,17 @@ module.exports = {
 
     printTransactionData: function(hash, addressTo, addressFrom, value){
         console.log("\n Transaction Hash: " + hash);
-        console.log(" Sending Address: " + addressFrom);
-        console.log(" Receiving Address : " + addressTo);
+        
+        if (addressFrom === null) 
+            console.log(" Sending address is a contract.");
+         else 
+            console.log(" Sending Address: " + addressFrom);
+
+        if (addressTo === null) 
+            console.log(" Receiving address is a contract.");
+         else 
+           console.log(" Receiving Address : " + addressTo); 
+
         console.log(" Amount sent in Ether: " + value + "\n");
     },
 }
