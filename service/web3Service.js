@@ -1,4 +1,5 @@
 var Web3 = require('web3');
+var transactionEngine = require('../engine/transactionEngine.js');
 
 module.exports = {
 
@@ -25,18 +26,6 @@ module.exports = {
         })
     },
 
-    // input: block number
-    // output: get block as promise
-    getSingleBlock: async function(number,web3) {
-        return web3.eth.getBlock(number);
-    },
-
-    // input: transaction hash
-    // output: get transaction as promise
-    getTransaction: async function(hash, web3){
-        return web3.eth.getTransaction(hash);
-    },
-
     // input: start and end block number
     // prints block data for given range from current block till # block
     doubleNumberQuery: async function(start, end, web3) {
@@ -48,63 +37,24 @@ module.exports = {
         while (currentBlock >= start){
 
             // make a query to the blockchain
-            var block = await this.getSingleBlock(currentBlock, web3).then(function(block){
+            var block = await web3.eth.getBlock(currentBlock).then(function(block){
                 return block;
             });
             
             // save transaction hashes (array) of the block
             var blockTxs = block.transactions; 
-
-            // for transactions in the block
-            for (var i = 0; i < blockTxs.length; i++) {
-                var transaction = await this.getTransaction(blockTxs[i], web3).then(function(tx){
-                    return tx;
-                });
-
-                // for each transaction, parse and calculate sum, print tx info
-                var transactionData = this.parseTx(transaction)
-
-                totalContracts += transactionData.count;
-                totalEther += transactionData.value;
-                totalTransactionCount += 1;
-            }
-           currentBlock--; 
+            
+            // for all transactions in the block
+            var transactionData = await transactionEngine.calculateTransactionData(blockTxs, web3);
+            
+            // sum the total transaction data
+            totalContracts += transactionData.count;
+            totalEther += transactionData.value;
+            totalTransactionCount += 1;
+    
+            currentBlock--; 
         }
         console.log("Total value in Ether transfered for all blocks in given range: " + totalEther);
         console.log("Total percent of addresses that are contract addresses: " + ((totalContracts/(2*totalTransactionCount))*100).toFixed(2) + "%");
-    },
-
-    // input: transaction object
-    // parse and calculate sum of ether transfered and contract addresses, print tx info
-    parseTx: function(transaction){
-        var count = 0;
-        var value = Number(transaction.value);
-
-        if (!transaction.to || !transaction.from){
-            count += count + 1;
-        }
-
-        this.printTransactionData(transaction.hash, transaction.to, transaction.from, transaction.value);
-
-        return {
-            value: value,
-            count: count
-        }
-    },
-
-    printTransactionData: function(hash, addressTo, addressFrom, value){
-        console.log("\n Transaction Hash: " + hash);
-        
-        if (addressFrom === null) 
-            console.log(" Sending address is a contract.");
-         else 
-            console.log(" Sending Address: " + addressFrom);
-
-        if (addressTo === null) 
-            console.log(" Receiving address is a contract.");
-         else 
-           console.log(" Receiving Address : " + addressTo); 
-
-        console.log(" Amount sent in Ether: " + value + "\n");
     },
 }

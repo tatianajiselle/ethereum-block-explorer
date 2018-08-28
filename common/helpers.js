@@ -11,5 +11,20 @@ module.exports = {
     isBlockNumberInRange: function(number, currentBlockNumber){
         return (0 <= number && number <= currentBlockNumber); // TODO: handle error if block number undefined 
     },
-    
+
+    printTransactionData: function(hash, addressTo, addressFrom, value){
+        console.log("\n Transaction Hash: " + hash);
+        
+        if (addressFrom === null) 
+            console.log(" Sending address is a contract.");
+         else 
+            console.log(" Sending Address: " + addressFrom);
+
+        if (addressTo === null) 
+            console.log(" Receiving address is a contract.");
+         else 
+           console.log(" Receiving Address : " + addressTo); 
+
+        console.log(" Amount sent in Ether: " + value + "\n");
+    },
 };
