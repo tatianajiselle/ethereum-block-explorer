@@ -22,11 +22,14 @@ NodeJs, Javascript
 
 <b>Challenges</b>: How would you solve slow queries over large block ranges?  
 
+In order to arrive at a solution, one must have full scope of the problem. Why is it that slow queries occur over large block ranges to begin with? 
 
-If space isnt an issue, I would solve slow queries over large block ranges by caching the most recent block range/transactions.
-This would need to be updated based on benchmarked calls but could be implemented as an automated algorithm (a rolling window), therefore allowing most recent blocks/transactions to remain cached. Caching these blocks alleviates long range queries in two ways: 
-1. It relieves the chain from consistent requests therefore alieving the system  
-2. Quicker response time on the block explorer to deliver recent block/transaction data
+Assuming the following reasons:
+1. Newer blocks on the network contain more transactions, and are therefore larger blocks and have larger read/write time.
+2. Depending on whether or not your ethereum node is fully synced, and its read/write time.
+3. All blocks need to be validated by the network, so if you are syncing while querying, that could be a cause of slower queries.
+4. Blocks are sequential and could need to be called or traversed to retreive the query (think of a linked list run time here!
+
 
 
 <b>Design Goals</b>:
@@ -41,24 +44,26 @@ This would need to be updated based on benchmarked calls but could be implemente
 <b>Prereqs</b>:  
 1. NodeJs
 2. Local Ethereum Node or Ganache Testnet 
-  
+
 <b>Dependencies</b>:   
 In root project directory:  
 > npm install 
+ 
 
+<b>How To Package</b>:
+> npm link
 
-<b>Run (unpackaged)</b>:  
-In root project directory:     
-> ./cli.js 
 
 <b>Run (packaged)</b>:     
 > lets-explore 
 
 
+<b>Run (unpackaged)</b>:  
+In root project directory:     
+> ./lets-explore.js 
+
+
 <b>Tests</b>:
 > npm test
 
-
-<b>How To Package</b>:
-> npm link
 
