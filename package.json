@@ -2,7 +2,7 @@
   "name": "block-explorer",
   "version": "1.0.0",
   "description": "Ethereum block explorer for a given range of blocks",
-  "main": "cli.js",
+  "main": "explorer.js",
   "scripts": {
     "test": "mocha"
   },
