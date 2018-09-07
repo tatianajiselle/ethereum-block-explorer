@@ -55,12 +55,12 @@ In root project directory:
 
 
 <b>Run (packaged)</b>:     
-> lets-explore 
+> explorer
 
 
 <b>Run (unpackaged)</b>:  
 In root project directory:     
-> ./lets-explore.js 
+> ./explorer.js 
 
 
 <b>Tests</b>:

@@ -13,7 +13,7 @@
   "author": "Tatiana Ensslin",
   "license": "ISC",
   "bin": {
-    "lets-explore": "./lets-explore.js"
+    "explorer": "./explorer.js"
   },
   "bugs": {
     "url": "https://github.com/tatianajiselle/ethereum-block-explorer/issues"
