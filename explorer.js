@@ -11,7 +11,7 @@ function main(){
 
     helper.welcomeInstructions();
 
-    prompt.get(['number'], function (err, result) {
+    prompt.get(['number'], function (error, result) {
     
         // Create new instance of web3 to call api
         var web3Provider = web3Service.setWeb3Provider();
@@ -22,7 +22,7 @@ function main(){
          } else if (result.number === '2'){
             getRangeDoubleInput(web3);
          } else {
-            console.error(error);
+            console.error("ERROR: " + error + "Please input a correct selection.");
         }
     });
 }
@@ -41,7 +41,7 @@ function getRangeSingleInput(web3) {
                 var start = ((currentBlockNumber+1) - num);
                 web3Service.doubleNumberQuery(start, currentBlockNumber, web3);
             } else {
-                console.error("ERROR: " + error + ". Please pick a number that is within the current block range.")
+                console.error("ERROR: " + error + ". Please pick a number that is within the current block range.");
             }
         });
     })
@@ -58,18 +58,18 @@ function getRangeDoubleInput(web3){
             console.log("You can pick any number between 1 and " + (currentBlockNumber + 1)); // +1 for index offset
 
             prompt.get(['start','end'], function (error, result) {
-                var start = Number(result.start)
-                var end = Number(result.end)
+                var start = Number(result.start);
+                var end = Number(result.end);
 
                 if ((helper.isBlockNumberInRange(start, currentBlockNumber) === true) && 
                         (helper.isBlockNumberInRange(end-1, currentBlockNumber) === true) && (start <= end) ){
                         web3Service.doubleNumberQuery(start, end-1, web3);
                 } else {
-                    console.error("ERROR: " + error + ". Please pick a range that is within the current block range.")
+                    console.error("ERROR: " + error + ". Please pick a range that is within the current block range.");
                 }
             });
          } else {
-            console.error(error);
+            console.error("ERROR: " + error + ". Please pick a number that is within the current block range.");
         } 
         });
         
